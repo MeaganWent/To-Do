@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -792,8 +793,32 @@ class _LoginWidgetState extends State<LoginWidget>
                                     displayName: getCurrentTimestamp.toString(),
                                   ));
 
+                              await showDialog(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title: const Text('Welcome Email'),
+                                    content: const Text(
+                                        'Please check your email for a welcome mesage :)'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(alertDialogContext),
+                                        child: const Text('Ok'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+
                               context.goNamedAuth(
                                   'onboarding', context.mounted);
+
+                              _model.apiResultz5w = await WelcomeEmailCall.call(
+                                to: _model.signupEmailTextController.text,
+                              );
+
+                              safeSetState(() {});
                             },
                             text: 'Sign up',
                             options: FFButtonOptions(
